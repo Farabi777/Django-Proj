@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+</head>
+<body>
+<h1>{{ post.title }}</h1>
+<p>by {{ post.author }} on {{ post.created_at }}</p>
+<p>{{ post.content }}</p>
+
+<h2>Comments</h2>
+<ul>
+    {% for comment in comments %}
+    <li>
+        <p>{{ comment.content }}</p>
+        <p>by {{ comment.author }} on {{ comment.created_at }}</p>
+    </li>
+    {% empty %}
+    <p>No comments yet.</p>
+    {% endfor %}
+</ul>
+
+<h3>Add a comment</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit">Post Comment</button>
+</form>
+
+<a href="{% url 'post_edit' post.id %}">Edit Post</a> |
+<form method="post" action="{% url 'post_delete' post.id %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">Delete Post</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<form method="GET" action="{% url 'post_list' %}">
+    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if user.is_authenticated %}
+<a href="{% url 'post_create' %}">Create New Post</a>
+<a href="{% url 'login' %}" method="post">Logout</a>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %}
+
+<h2>Blog Posts</h2>
+<ul>
+    {% for post in posts %}
+    <li>
+        <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+        <p>{{ post.content|slice:200 }}...</p> <!-- Show a preview of the content -->
+    </li>
+    {% empty %}
+    <li>No posts found.</li>
+    {% endfor %}
+</ul>
